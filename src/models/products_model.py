@@ -1,7 +1,9 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from pydantic import BaseModel, Field
 from datetime import datetime
 from src.config.db import Base
+from src.models.categories_model import CategoryOutSchema
 
 class ProductModel(Base):
     __tablename__='product'
@@ -12,6 +14,8 @@ class ProductModel(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    category = relationship('CategoryModel', back_populates='products')
+
 class ProductSchema(BaseModel):
     name: str = Field(..., min_length=1, max_length=255)
     description: str | None = None
@@ -21,6 +25,9 @@ class ProductOutSchema(BaseModel):
     id: int = Field(..., gt=0)
     name: str = Field(..., min_length=1, max_length=255)
     description: str | None = None
-    category_id: int = Field(..., gt=0)
+    category: CategoryOutSchema
     created_at: datetime
     updated_at: datetime
+
+    class Config:
+        from_attributes = True
