@@ -11,7 +11,7 @@ def get_all_products(db:Session, page:int=1):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f'Failed to get all products{e}')
+            detail=f'Failed to get all products: {e}')
             
 
 def create_product(request:ProductSchema, db:Session):
@@ -83,4 +83,4 @@ def delete_product(id:int, db:Session):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f'Failed to delete the product: {e}',            )
+            detail=f'Failed to delete the product: {e}')
