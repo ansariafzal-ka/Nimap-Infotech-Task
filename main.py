@@ -3,7 +3,7 @@ from src.routes.categories_routes import router as category_router
 from src.routes.products_routes import router as product_router
 from src.config.db import Base, engine
 
-Base.metadata_create_all(engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title='Nimap Infotech Task')
 
